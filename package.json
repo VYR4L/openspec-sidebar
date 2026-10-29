@@ -1,0 +1,145 @@
+{
+  "name": "openspec-sidebar-local",
+  "displayName": "OpenSpec Workbench",
+  "description": "A visual OpenSpec dashboard with lifecycle, workflow, delta, file, and Git tools.",
+  "version": "0.2.1",
+  "publisher": "local",
+  "private": true,
+  "license": "UNLICENSED",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:openspecWorkbench.openDashboard",
+    "onCommand:openspecWorkbench.refreshDashboard"
+  ],
+  "contributes": {
+    "configurationDefaults": {
+      "files.exclude": {
+        ".agents": true,
+        "agents": true,
+        ".trae": true,
+        "openspec": true,
+        ".agent": true
+      }
+    },
+    "configuration": {
+      "title": "OpenSpec Workbench",
+      "properties": {
+        "openspecWorkbench.folderNames": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[^/\\\\]+$"
+          },
+          "uniqueItems": true,
+          "default": [
+            ".agents",
+            "agents",
+            ".trae",
+            "openspec",
+            ".agent"
+          ],
+          "description": "Workspace-root support folders available from the dashboard Files tab."
+        },
+        "openspecWorkbench.cliCommand": {
+          "type": "string",
+          "default": "",
+          "description": "Optional OpenSpec executable or command prefix. Leave empty to auto-detect a workspace-local package, npm's default global installation, PATH, or npx command."
+        },
+        "openspecWorkbench.assistantProvider": {
+          "type": "string",
+          "enum": [
+            "universal",
+            "trae",
+            "codex"
+          ],
+          "default": "universal",
+          "description": "Assistant integration used for OpenSpec workflow prompts."
+        },
+        "openspecWorkbench.assistantCommand": {
+          "type": "string",
+          "default": "",
+          "description": "Optional VS Code command ID used to focus or prefill the configured assistant chat."
+        },
+        "openspecWorkbench.assistantCommandAcceptsPrompt": {
+          "type": "boolean",
+          "default": false,
+          "description": "Pass the workflow prompt as the assistant command's first argument. Enable only when that command documents prompt support."
+        },
+        "openspecWorkbench.refreshDebounceMs": {
+          "type": "number",
+          "default": 300,
+          "minimum": 100,
+          "maximum": 5000,
+          "description": "Delay used to coalesce OpenSpec and Git filesystem refreshes."
+        },
+        "openspecWorkbench.commitTemplates": {
+          "type": "object",
+          "default": {
+            "add": "docs: add {change}",
+            "update": "docs: update {change}",
+            "sync": "docs: sync {change}",
+            "archive": "docs: archive {change}"
+          },
+          "description": "Editable commit-message templates. Use {change} for the selected change name."
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "openspecWorkbench.openDashboard",
+        "title": "Open Dashboard",
+        "category": "OpenSpec"
+      },
+      {
+        "command": "openspecWorkbench.refreshDashboard",
+        "title": "Refresh Dashboard",
+        "category": "OpenSpec",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "openspecWorkbench.openSettings",
+        "title": "Open Workbench Settings",
+        "category": "OpenSpec"
+      }
+    ]
+  },
+  "scripts": {
+    "clean": "rimraf dist",
+    "build:host": "tsc -p tsconfig.extension.json",
+    "build:webview": "vite build --config vite.config.mts",
+    "build": "npm run clean && npm run build:host && npm run build:webview",
+    "typecheck": "tsc -p tsconfig.extension.json --noEmit && tsc -p tsconfig.webview.json --noEmit",
+    "lint": "eslint src webview/src vite.config.mts",
+    "test": "vitest run --config vite.config.mts",
+    "check": "npm run typecheck && npm run lint && npm run test",
+    "package": "npm run build && vsce package --allow-missing-repository"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^26.6.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/vscode": "^1.95.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "@vscode/vsce": "^4.0.0",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
+    "jsdom": "^30.1.2",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "rimraf": "^6.1.3",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.71.1",
+    "vite": "^8.3.3",
+    "vitest": "^5.0.3"
+  }
+}
