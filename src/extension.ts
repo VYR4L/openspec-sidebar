@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { DashboardPanel, dashboardViewType, type DashboardServices } from './dashboardPanel';
+import { FilesTreeProvider, filesViewId } from './filesTreeView';
 import { AssistantService } from './services/assistantService';
 import { CliRunner } from './services/cliRunner';
 import { GitService } from './services/gitService';
@@ -17,11 +18,14 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
 
   const services: DashboardServices = { workspace, openspec, git, assistant, output };
   const openDashboard = () => DashboardPanel.open(context.extensionUri, context, services);
+  const filesTree = new FilesTreeProvider(workspace);
 
   context.subscriptions.push(
     workspace,
     git,
     output,
+    filesTree,
+    vscode.window.registerTreeDataProvider(filesViewId, filesTree),
     vscode.commands.registerCommand('openspecWorkbench.openDashboard', openDashboard),
     vscode.commands.registerCommand('openspecWorkbench.refreshDashboard', async () => {
       if (!DashboardPanel.current) {
@@ -29,6 +33,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       }
       await DashboardPanel.refreshCurrent();
     }),
+    vscode.commands.registerCommand('openspecWorkbench.refreshFiles', () => filesTree.refresh()),
     vscode.commands.registerCommand('openspecWorkbench.openSettings', async () => {
       await vscode.commands.executeCommand(
         'workbench.action.openSettings',
