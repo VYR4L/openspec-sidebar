@@ -95,7 +95,8 @@
       {
         "command": "openspecWorkbench.openDashboard",
         "title": "Open Dashboard",
-        "category": "OpenSpec"
+        "category": "OpenSpec",
+        "icon": "$(layout)"
       },
       {
         "command": "openspecWorkbench.refreshDashboard",
@@ -107,8 +108,52 @@
         "command": "openspecWorkbench.openSettings",
         "title": "Open Workbench Settings",
         "category": "OpenSpec"
+      },
+      {
+        "command": "openspecWorkbench.refreshFiles",
+        "title": "Refresh Files",
+        "category": "OpenSpec",
+        "icon": "$(refresh)"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "openspecWorkbench",
+          "title": "OpenSpec",
+          "icon": "resources/coin-new.svg"
+        }
+      ]
+    },
+    "views": {
+      "openspecWorkbench": [
+        {
+          "id": "openspecWorkbench.files",
+          "name": "OpenSpec Files",
+          "contextualTitle": "OpenSpec"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "openspecWorkbench.files",
+        "contents": "No OpenSpec folders found in this workspace.\n[Open Dashboard](command:openspecWorkbench.openDashboard)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "openspecWorkbench.openDashboard",
+          "when": "view == openspecWorkbench.files",
+          "group": "navigation@1"
+        },
+        {
+          "command": "openspecWorkbench.refreshFiles",
+          "when": "view == openspecWorkbench.files",
+          "group": "navigation@2"
+        }
+      ]
+    }
   },
   "scripts": {
     "clean": "rimraf dist",
