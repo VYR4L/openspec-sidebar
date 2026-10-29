@@ -1,0 +1,11 @@
+.git/**
+.vscode/**
+*.vsix
+src/**
+webview/**
+openspec/**
+node_modules/**
+tsconfig*.json
+vite.config.mts
+eslint.config.mjs
+package-lock.json
