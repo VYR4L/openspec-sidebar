@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 200 200"
+     role="img"
+     aria-label="Ícone de coin pixelado com fundo transparente"
+     shape-rendering="crispEdges">
+  <g fill="#FFFFFF">
+    <!-- topo -->
+    <rect x="86" y="49" width="28" height="14"/>
+
+    <!-- diagonais superiores -->
+    <rect x="71" y="64" width="14" height="14"/>
+    <rect x="115" y="64" width="14" height="14"/>
+
+    <!-- faixa central -->
+    <rect x="57" y="78" width="14" height="44"/>
+    <rect x="86" y="78" width="28" height="44"/>
+    <rect x="129" y="78" width="14" height="44"/>
+
+    <!-- diagonais inferiores -->
+    <rect x="71" y="122" width="14" height="14"/>
+    <rect x="115" y="122" width="14" height="14"/>
+
+    <!-- base -->
+    <rect x="86" y="136" width="28" height="14"/>
+  </g>
+</svg>
